@@ -8,5 +8,5 @@ class args():
                         )
         self.parser.add_argument('-n', '--nombre', type=str, help = 'Nombre de archivo (opcional)')
         self.args = self.parser.parse_args()
-    def x():
-        pass
+    def accion(self):
+        return self.args.Accion
