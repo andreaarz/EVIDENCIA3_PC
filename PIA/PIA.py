@@ -1,19 +1,14 @@
 import os
 import argparse
+import init
 
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument('-a', '--Accion', type=str,
-                        help='Seleccion de la tarea',
-                        choices=['op1','op2','op3']
-                        )
-    parser.add_argument('-n', '--nombre', type=str, help = 'Nombre de archivo (opcional)')
-    args = parser.parse_args()
-    if args.Accion == 'op1':
+    args = init.args()
+    if args.accion == 'op1':
         op1()
-    elif args.Accion == 'op2':
+    elif args.accion == 'op2':
         op2()
-    elif args.Accion == 'op1':
+    elif args.accion == 'op1':
         op3()
 
 
