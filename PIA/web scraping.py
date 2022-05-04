@@ -15,33 +15,23 @@ def busqueda_google(busqueda):
     for ra in results:
         logging.info(ra)
         print(ra)
-
-
-
-
+        
 def download_images(url):
     logging.info("Entra a la función downloads_images" )
     r = requests.get(url) 
     soup = BeautifulSoup(r.text, 'html.parser') 
     images = soup.findAll('img') 
     try:
-        folder_name = input("Nombre de la Carpeta Donde Desea Guardar Las Imagenes:- ")
-        os.mkdir(folder_name) 
-        logging.info("Nombre de la Carpeta Donde Desea Guardar Las Imagenes:- ")
-        logging.info(folder_name)
+        os.mkdir('.\\Datos') 
     except:
-        logging.error("Ya existe esta carpeta")
-        print("Ya existe esa carpeta!") 
+        pass
     
     count = 0
     print(f"{len(images)} Imagenes encontradas!")
     logging.info(f"{len(images)} Imagenes encontradas!")
-    logging.info("Iniciando descarga")
-    
+    logging.info("Iniciando descarga"
     if len(images) != 0: 
-
         for i, image in enumerate(images): 
-
             try: 
                 image_link = image["data-srcset"] 
             except: 
@@ -55,7 +45,6 @@ def download_images(url):
                             image_link = image["src"] 
                         except: 
                             pass
- 
             try: 
                 r = requests.get(image_link).content 
                 try:  
@@ -68,28 +57,20 @@ def download_images(url):
                     count += 1
             except: 
                 pass
-
         if count == len(images):
             logging.info("Todas las imagenes han sido descargadas")
             print("Imagenes Descargadas!") 
-
         else: 
             print(f"Total {count} Images Downloaded Out of {len(images)}")
             logging.info(f"Total {count} Images Downloaded Out of {len(images)}")
 
 
-
-
 def descargar_pdfs(url):
     logging.info("Entra en la función descargar_pdfs" )
     response = requests.get(url)   
-
     soup = BeautifulSoup(response.text, 'html.parser') 
-
     links = soup.find_all('a')   
-
     i = 0
-      
     for link in links: 
         if ('.pdf' in link.get('href', [])): 
             i += 1
