@@ -1,21 +1,9 @@
 from bs4 import *
 import requests 
 import os 
-from googlesearch import search
 import re
 import logging
 
-# esta variable contiene el paramentro o consulta de busqueda
-def busqueda_google(busqueda):
-    logging.info("Entro en la función busqueda_google" )
-    # ahora ejecutamos la busqueda con la funcion search y pasamos como parametro la consulta
-    logging.info("Los resultados son: ")
-    results = search(busqueda)
-    # hacemos un recorrido de los resultados, cada resultado es una URL
-    for ra in results:
-        logging.info(ra)
-        print(ra)
-        
 def download_images(url):
     logging.info("Entra a la función downloads_images" )
     r = requests.get(url) 
@@ -25,7 +13,6 @@ def download_images(url):
         os.mkdir('.\\Datos') 
     except:
         pass
-    
     count = 0
     print(f"{len(images)} Imagenes encontradas!")
     logging.info(f"{len(images)} Imagenes encontradas!")
@@ -50,10 +37,8 @@ def download_images(url):
                 try:  
                     r = str(r, 'utf-8') 
                 except UnicodeDecodeError: 
-  
                     with open(f"{folder_name}/images{i+1}.jpg", "wb+") as f: 
                         f.write(r) 
-
                     count += 1
             except: 
                 pass
@@ -74,20 +59,13 @@ def descargar_pdfs(url):
     for link in links: 
         if ('.pdf' in link.get('href', [])): 
             i += 1
-            print("Downloading file: ", i, "...")
-     
-            
-            response = requests.get(link.get('href')) 
-      
-            
+            response = requests.get(link.get('href'))       
             pdf = open("pdf"+str(i)+".pdf", 'wb') 
             pdf.write(response.content) 
             pdf.close() 
             print("File ", i, " Downloaded!") 
-      
     print("Todos los PDF descargados!")
     logging.info("Todos los PDF descargados")
-
 
 
 def find_mails(url):
@@ -98,13 +76,8 @@ def find_mails(url):
         logging.error("Pagina no encontrada")
         print("Pagina no encontrada!")
         exit()
-
     regExMail = r"[a-z0-9\.\-+_]+@[a-z0-9\.\-+_]+\.[a-z]+"
-
     new_emails = set(re.findall(regExMail, response.text, re.I))
-    logging.info("emails encontrados: ")
-    logging.info(new_emails)
-
     name = input("Ingresa el nombre del archivo (sin el .txt): ")
     logging.info("El nombre del archivo será: " + name)
     fo = open(name + ".txt", "w")
