@@ -1,27 +1,46 @@
 import os
 import logging
 import argparse
-import srvinit
 import tareas
 
 def main():
-    logging.basicConfig(filename='PIA.txt', level=logging.INFO)
+    try:
+        os.mkdir('.\\Datos') 
+    except:
+        pass
+    FORMAT = '%(asctime)s %(message)s'
+    logging.basicConfig(format=FORMAT, filename='PIA.txt', level=logging.INFO)
     parser = argparse.ArgumentParser()
     parser.add_argument('-a', '--Accion', type=str,
                             help='Seleccion de la tarea',
-                            choices=['op1','op2','op3']
+                            choices=['op1','op2','op3','op4']
                             )
-    parser.add_argument('-n', '--nombre', type=str, help = 'Nombre de archivo (opcional)')
-    args = parser.parse_args(
-    opcion = tareas.Tareas()
+    parser.add_argument('-n', '--nombre', type=str, default='datos', help = 'Nombre de archivo/dominio (opcional)')
+    args = parser.parse_args()
+    # Se invocan las clases de las tareas
+    
     try:
         if args.Accion == 'op1':
-            sv = echoserver.client()
-            opcion.ip()
+            logging.info("Se opera la Opcion 1")
+            t1 = tareas.t1()
+            x = [args.nombre]
+            t1.ip(x[0])
         elif args.Accion == 'op2':
-            opcion.wsscp()
-        elif args.Accion == 'op1':
-            opcion.mailsnd()
+            logging.info("Se opera la Opcion 2")
+            x = [args.nombre]
+            t2 = tareas.t2(x[0])
+            t2.download_images()
+        elif args.Accion == 'op3':
+            logging.info("Se opera la Opcion 3")
+            x = [args.nombre]
+            t3 = tareas.t3()
+            t3.mail_search(x[0])
+        elif args.Accion == 'op4':
+            logging.info("Se opera la Opcion ")
+            t4 = tareas.t4()
+            t4.server()
+        else:
+            exit()
     except Exception as e:
         logging.error(e)
                         
