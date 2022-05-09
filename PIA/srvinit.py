@@ -1,22 +1,25 @@
 import socket
-class client():
-    def __init__(self):
-        self.host = "127.0.0.1"  # The server's hostname or IP address
-        self.port = 65432  # The port used by the server
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as self.s:
-            self.s.bind(('', 8888))
-            self.s.listen()
-            print('El servidor está comenzando ...')
-            conn,address = self.s.accept()
-            self.s.connect((self.host, self.port))
+import sys
 
-            
-    def run(self):
-        conn, addr = self.s.accept()
-        with conn:
-            print(f"Connected by {addr}")
-            while True:
-                data = conn.recv(1024)
-                if not data:
-                    break
-                conn.sendall(data)
+def iniciar():
+    # Inicializando el servidor
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM, proto=0)
+    s.bind(('127.0.0.1', 6543))
+    s.listen(10)
+    
+    while True:
+        # Se realiza el manejo de conexiones
+        cliente, addr = s.accept()
+        print('Conexion de: ', addr)
+
+        chunks = []
+        while True:
+            # Administra los datos mientras el cliente manda mensaje.
+            data = client.recv(2048)
+            if not data:
+            # Ya cuando el cliente termine de escribir.
+                break
+            chunks.append(data)
+        cliente.sendall(b''.join(chunks))
+        cliente.close()
+        exit()
